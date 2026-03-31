@@ -71,9 +71,9 @@ namespace pr1
             {
                 ShapeType.Line => "x1,y1,x2,y2\nцвет\nтолщина\n\nПример:\n0,0,100,100\nred\n2",
                 ShapeType.Ellipse => "x,y,radX,radY\nцвет\nтолщина\nтекст\n\nПример:\n100,100,50,30\nblue\n2\nТекст",
-                ShapeType.Polygon => isRegularPolygon 
+                ShapeType.Polygon => isRegularPolygon
                     ? "x,y,стороны,радиус\nцвет\nтолщина\n\nПример:\n150,150,6,50\ngreen\n3"
-                    : "Добавьте точки через\nсписок слева (кнопка 'Доб.')\n\nЗатем введите:\nцвет\nтолщина\n\nПример:\nred\n2",
+                    : "Точки: x1,y1,x2,y2,...\nцвет\nтолщина\n\nПример:\n50,50,100,50,100,100\nred\n2",
                 _ => ""
             };
             labelParams.Text = "Параметры:\n" + hint;
@@ -238,7 +238,26 @@ namespace pr1
                 }
 
                 var polygon = new Polygon(points);
-                ApplyCommonSettings(polygon, lines);
+                
+                // Для произвольного многоугольника:
+                // lines[0] - точки (уже обработаны в listBoxPoints)
+                // lines[1] - цвет (или lines[0] если точки не в lines)
+                // lines[2] - толщина
+                // Парсим цвет и толщину из textBoxParams (после точек)
+                string[] paramLines = textBoxParams.Text.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+                
+                if (paramLines.Length >= 1 && !string.IsNullOrWhiteSpace(paramLines[0]))
+                    polygon.Color = ParseColor(paramLines[0].Trim());
+
+                if (paramLines.Length >= 2 && int.TryParse(paramLines[1].Trim(), out int width))
+                    polygon.PenWidth = width;
+
+                // Заливка (опционально, 3-я строка)
+                if (paramLines.Length >= 3 && !string.IsNullOrWhiteSpace(paramLines[2]))
+                {
+                    polygon.FillColor = ParseColor(paramLines[2].Trim());
+                }
+                
                 return polygon;
             }
         }
@@ -303,19 +322,35 @@ namespace pr1
         {
             try
             {
-                string[] coords = textBoxParams.Text.Split('\n')[0].Split(',', StringSplitOptions.RemoveEmptyEntries);
-                if (coords.Length >= 2)
+                // Получаем первую строку (координаты точек)
+                string firstLine = textBoxParams.Text.Split('\n')[0].Trim();
+                if (string.IsNullOrEmpty(firstLine))
                 {
-                    int x = ParseInt(coords[0]);
-                    int y = ParseInt(coords[1]);
-                    listBoxPoints.Items.Add($"{x},{y}");
-                    textBoxParams.Clear();
-                    labelStatus.Text = $"Точка ({x},{y}) добавлена";
+                    labelStatus.Text = "Введите координаты точек: x1,y1,x2,y2,...";
+                    return;
                 }
-                else
+
+                string[] coords = firstLine.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                
+                // Проверяем, что есть хотя бы одна пара координат
+                if (coords.Length < 2)
                 {
                     labelStatus.Text = "Введите координаты: x,y";
+                    return;
                 }
+
+                // Парсим все точки (поддержка формата x1,y1,x2,y2,...)
+                int pointsAdded = 0;
+                for (int i = 0; i < coords.Length - 1; i += 2)
+                {
+                    int x = ParseInt(coords[i]);
+                    int y = ParseInt(coords[i + 1]);
+                    listBoxPoints.Items.Add($"{x},{y}");
+                    pointsAdded++;
+                }
+
+                textBoxParams.Clear();
+                labelStatus.Text = $"Добавлено точек: {pointsAdded}";
             }
             catch (Exception ex)
             {

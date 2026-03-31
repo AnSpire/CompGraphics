@@ -70,7 +70,7 @@
             groupBoxControls.Controls.Add(buttonEnable);
             groupBoxControls.Location = new Point(85, 62);
             groupBoxControls.Name = "groupBoxControls";
-            groupBoxControls.Size = new Size(280, 400);
+            groupBoxControls.Size = new Size(380, 400);
             groupBoxControls.TabIndex = 0;
             groupBoxControls.TabStop = false;
             groupBoxControls.Text = "Управление";
@@ -98,7 +98,7 @@
             // radioArbitraryPolygon
             //
             radioArbitraryPolygon.AutoSize = true;
-            radioArbitraryPolygon.Location = new Point(150, 50);
+            radioArbitraryPolygon.Location = new Point(260, 30);
             radioArbitraryPolygon.Name = "radioArbitraryPolygon";
             radioArbitraryPolygon.Size = new Size(120, 19);
             radioArbitraryPolygon.TabIndex = 16;
@@ -108,7 +108,7 @@
             // labelPoints
             //
             labelPoints.AutoSize = true;
-            labelPoints.Location = new Point(20, 240);
+            labelPoints.Location = new Point(250, 240);
             labelPoints.Name = "labelPoints";
             labelPoints.Size = new Size(40, 15);
             labelPoints.TabIndex = 14;
@@ -118,14 +118,14 @@
             //
             listBoxPoints.FormattingEnabled = true;
             listBoxPoints.ItemHeight = 15;
-            listBoxPoints.Location = new Point(20, 260);
+            listBoxPoints.Location = new Point(250, 260);
             listBoxPoints.Name = "listBoxPoints";
             listBoxPoints.Size = new Size(110, 94);
             listBoxPoints.TabIndex = 8;
             //
             // buttonAddPoint
             //
-            buttonAddPoint.Location = new Point(150, 260);
+            buttonAddPoint.Location = new Point(250, 360);
             buttonAddPoint.Name = "buttonAddPoint";
             buttonAddPoint.Size = new Size(50, 25);
             buttonAddPoint.TabIndex = 9;
@@ -135,7 +135,7 @@
             //
             // buttonRemovePoint
             //
-            buttonRemovePoint.Location = new Point(150, 290);
+            buttonRemovePoint.Location = new Point(310, 360);
             buttonRemovePoint.Name = "buttonRemovePoint";
             buttonRemovePoint.Size = new Size(50, 25);
             buttonRemovePoint.TabIndex = 10;
@@ -159,59 +159,59 @@
             textBoxParams.Size = new Size(110, 110);
             textBoxParams.TabIndex = 4;
             textBoxParams.TextChanged += textBoxParams_TextChanged;
-            // 
+            //
             // labelParams
-            // 
+            //
             labelParams.Location = new Point(20, 205);
             labelParams.Name = "labelParams";
-            labelParams.Size = new Size(120, 60);
+            labelParams.Size = new Size(220, 120);
             labelParams.TabIndex = 5;
             labelParams.Text = "Параметры:\nx1,y1,x2,y2\r\nцвет\r\nтолщина";
-            // 
+            //
             // buttonClearAll
-            // 
-            buttonClearAll.Location = new Point(150, 210);
+            //
+            buttonClearAll.Location = new Point(250, 210);
             buttonClearAll.Name = "buttonClearAll";
             buttonClearAll.Size = new Size(110, 30);
             buttonClearAll.TabIndex = 3;
             buttonClearAll.Text = "Очистить всё";
             buttonClearAll.UseVisualStyleBackColor = true;
             buttonClearAll.Click += buttonClearAll_Click;
-            // 
+            //
             // buttonErase
-            // 
-            buttonErase.Location = new Point(150, 170);
+            //
+            buttonErase.Location = new Point(250, 170);
             buttonErase.Name = "buttonErase";
             buttonErase.Size = new Size(110, 30);
             buttonErase.TabIndex = 2;
             buttonErase.Text = "Стереть";
             buttonErase.UseVisualStyleBackColor = true;
             buttonErase.Click += buttonErase_Click;
-            // 
+            //
             // buttonDraw
-            // 
-            buttonDraw.Location = new Point(150, 130);
+            //
+            buttonDraw.Location = new Point(250, 130);
             buttonDraw.Name = "buttonDraw";
             buttonDraw.Size = new Size(110, 30);
             buttonDraw.TabIndex = 1;
             buttonDraw.Text = "Рисовать";
             buttonDraw.UseVisualStyleBackColor = true;
             buttonDraw.Click += buttonDraw_Click;
-            // 
+            //
             // buttonEnable
-            // 
-            buttonEnable.Location = new Point(150, 90);
+            //
+            buttonEnable.Location = new Point(250, 90);
             buttonEnable.Name = "buttonEnable";
             buttonEnable.Size = new Size(110, 30);
             buttonEnable.TabIndex = 0;
             buttonEnable.Text = "Включить графику";
             buttonEnable.UseVisualStyleBackColor = true;
             buttonEnable.Click += buttonEnable_Click;
-            // 
+            //
             // groupBoxCanvas
-            // 
+            //
             groupBoxCanvas.Controls.Add(panelCanvas);
-            groupBoxCanvas.Location = new Point(420, 62);
+            groupBoxCanvas.Location = new Point(520, 62);
             groupBoxCanvas.Name = "groupBoxCanvas";
             groupBoxCanvas.Size = new Size(400, 350);
             groupBoxCanvas.TabIndex = 1;
@@ -231,7 +231,7 @@
             groupBoxMessages.Controls.Add(labelStatus);
             groupBoxMessages.Location = new Point(85, 520);
             groupBoxMessages.Name = "groupBoxMessages";
-            groupBoxMessages.Size = new Size(280, 82);
+            groupBoxMessages.Size = new Size(380, 82);
             groupBoxMessages.TabIndex = 2;
             groupBoxMessages.TabStop = false;
             groupBoxMessages.Text = "Сообщения";
@@ -249,7 +249,7 @@
             //
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(919, 650);
+            ClientSize = new Size(1050, 650);
             Controls.Add(groupBoxMessages);
             Controls.Add(groupBoxCanvas);
             Controls.Add(groupBoxControls);
