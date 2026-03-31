@@ -12,6 +12,7 @@ namespace pr1
         public int RadiusY { get; set; }
         public string? Text { get; set; }
         public Font? Font { get; set; }
+        public bool ShowSizeLabel { get; set; }
 
         public Ellipse() : base()
         {
@@ -20,6 +21,7 @@ namespace pr1
             RadiusY = 30;
             Text = null;
             Font = new Font("Arial", 10);
+            ShowSizeLabel = true;
         }
 
         public Ellipse(Point center, int radiusX, int radiusY) : base()
@@ -29,6 +31,7 @@ namespace pr1
             RadiusY = radiusY;
             Text = null;
             Font = new Font("Arial", 10);
+            ShowSizeLabel = true;
         }
 
         public override void Draw(Graphics g)
@@ -58,6 +61,17 @@ namespace pr1
                 var textY = Center.Y - textSize.Height / 2;
                 g.DrawString(Text, Font, textBrush, textX, textY);
             }
+
+            // Подпись размеров
+            if (ShowSizeLabel && Font != null)
+            {
+                using var textBrush = new SolidBrush(Color);
+                string sizeLabel = $"{RadiusX}, {RadiusY}";
+                var textSize = g.MeasureString(sizeLabel, Font);
+                var textX = Center.X - textSize.Width / 2;
+                var textY = Center.Y + RadiusY + 2; // чуть ниже эллипса
+                g.DrawString(sizeLabel, Font, textBrush, textX, textY);
+            }
         }
 
         public override void Erase(Graphics g)
@@ -86,6 +100,27 @@ namespace pr1
                 var textX = Center.X - textSize.Width / 2;
                 var textY = Center.Y - textSize.Height / 2;
                 g.DrawString(Text, Font, textBrush, textX, textY);
+            }
+
+            // Стираем подпись размеров
+            if (ShowSizeLabel && Font != null)
+            {
+                string sizeLabel = $"{RadiusX}, {RadiusY}";
+                var textSize = g.MeasureString(sizeLabel, Font);
+                var textX = Center.X - textSize.Width / 2;
+                var textY = Center.Y + RadiusY + 2;
+                
+                // Сначала заливаем область под текстом цветом фона
+                using (var bgBrush = new SolidBrush(BackgroundColor))
+                {
+                    g.FillRectangle(bgBrush, textX, textY, textSize.Width, textSize.Height);
+                }
+                
+                // Затем рисуем текст цветом фона для полного перекрытия
+                using (var textBrush = new SolidBrush(BackgroundColor))
+                {
+                    g.DrawString(sizeLabel, Font, textBrush, textX, textY);
+                }
             }
         }
     }
