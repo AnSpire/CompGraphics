@@ -218,71 +218,75 @@ namespace pr2
             GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
             GL.LoadMatrix(ref projection);
 
-            // Настройка камеры
-            OpenTK.Matrix4 modelview = OpenTK.Matrix4.LookAt(
-                new OpenTK.Vector3(0, 0, 5),    // камера на расстоянии 5 единиц
+            // Создаём матрицу вращения вокруг оси Y
+            OpenTK.Matrix4 rotation = OpenTK.Matrix4.CreateRotationY(RotationAngle);
+
+            // Матрица вида (камера)
+            OpenTK.Matrix4 view = OpenTK.Matrix4.LookAt(
+                new OpenTK.Vector3(0, 0, 10),    // камера на расстоянии 10 единиц
                 OpenTK.Vector3.Zero,             // смотрим в центр
                 OpenTK.Vector3.UnitY             // Y направлен вверх
             );
 
-            // Добавляем вращение куба
-            modelview = OpenTK.Matrix4.Mult(modelview, OpenTK.Matrix4.CreateRotationY(RotationAngle));
-            modelview = OpenTK.Matrix4.Mult(modelview, OpenTK.Matrix4.CreateRotationX(RotationAngle * 0.5f));
+            // Итоговая матрица: rotation * view
+            // OpenTK транспонирует матрицу при передаче в OpenGL,
+            // поэтому указываем порядок, обратный желаемому
+            OpenTK.Matrix4 modelview = OpenTK.Matrix4.Mult(rotation, view);
 
             GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
 
-            // Рисуем куб из 6 граней
+            // Рисуем куб из 6 граней (центрирован в начале координат, размер 1x1x1)
             GL.Begin(OpenTK.Graphics.OpenGL.PrimitiveType.Quads);
 
             // Передняя грань - красная
             GL.Color3(Color.Red);
-            GL.Vertex3(-1, -1, 1);
-            GL.Vertex3(1, -1, 1);
-            GL.Vertex3(1, 1, 1);
-            GL.Vertex3(-1, 1, 1);
+            GL.Vertex3(-0.5f, -0.5f, 0.5f);
+            GL.Vertex3(0.5f, -0.5f, 0.5f);
+            GL.Vertex3(0.5f, 0.5f, 0.5f);
+            GL.Vertex3(-0.5f, 0.5f, 0.5f);
 
             // Задняя грань - синяя
             GL.Color3(Color.Blue);
-            GL.Vertex3(-1, -1, -1);
-            GL.Vertex3(-1, 1, -1);
-            GL.Vertex3(1, 1, -1);
-            GL.Vertex3(1, -1, -1);
+            GL.Vertex3(-0.5f, -0.5f, -0.5f);
+            GL.Vertex3(-0.5f, 0.5f, -0.5f);
+            GL.Vertex3(0.5f, 0.5f, -0.5f);
+            GL.Vertex3(0.5f, -0.5f, -0.5f);
 
             // Левая грань - зелёная
             GL.Color3(Color.Green);
-            GL.Vertex3(-1, -1, -1);
-            GL.Vertex3(-1, -1, 1);
-            GL.Vertex3(-1, 1, 1);
-            GL.Vertex3(-1, 1, -1);
+            GL.Vertex3(-0.5f, -0.5f, -0.5f);
+            GL.Vertex3(-0.5f, -0.5f, 0.5f);
+            GL.Vertex3(-0.5f, 0.5f, 0.5f);
+            GL.Vertex3(-0.5f, 0.5f, -0.5f);
 
             // Правая грань - жёлтая
             GL.Color3(Color.Yellow);
-            GL.Vertex3(1, -1, 1);
-            GL.Vertex3(1, -1, -1);
-            GL.Vertex3(1, 1, -1);
-            GL.Vertex3(1, 1, 1);
+            GL.Vertex3(0.5f, -0.5f, 0.5f);
+            GL.Vertex3(0.5f, -0.5f, -0.5f);
+            GL.Vertex3(0.5f, 0.5f, -0.5f);
+            GL.Vertex3(0.5f, 0.5f, 0.5f);
 
             // Верхняя грань - белая
             GL.Color3(Color.White);
-            GL.Vertex3(-1, 1, -1);
-            GL.Vertex3(-1, 1, 1);
-            GL.Vertex3(1, 1, 1);
-            GL.Vertex3(1, 1, -1);
+            GL.Vertex3(-0.5f, 0.5f, -0.5f);
+            GL.Vertex3(-0.5f, 0.5f, 0.5f);
+            GL.Vertex3(0.5f, 0.5f, 0.5f);
+            GL.Vertex3(0.5f, 0.5f, -0.5f);
 
             // Нижняя грань - фиолетовая
             GL.Color3(Color.Purple);
-            GL.Vertex3(-1, -1, -1);
-            GL.Vertex3(1, -1, -1);
-            GL.Vertex3(1, -1, 1);
-            GL.Vertex3(-1, -1, 1);
+            GL.Vertex3(-0.5f, -0.5f, -0.5f);
+            GL.Vertex3(0.5f, -0.5f, -0.5f);
+            GL.Vertex3(0.5f, -0.5f, 0.5f);
+            GL.Vertex3(-0.5f, -0.5f, 0.5f);
 
             GL.End();
 
-            // Увеличиваем угол поворота для анимации
-            RotationAngle += 0.5f;
+            // Увеличиваем угол поворота для анимации (очень медленное вращение)
+            RotationAngle += 0.1f;
             if (RotationAngle > 360)
-                RotationAngle = 0;
+                RotationAngle -= 360;
         }
 
         /// <summary>
